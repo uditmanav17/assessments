@@ -89,6 +89,7 @@ async def upload_file_predict(file: UploadFile = File(...)):
             detail="Wrong file format or missing columns!",
         ) from e
     # replace any missing row value with mean
+    df2 = df.copy()
     if df.isna().sum().sum() > 1:
         imputer = ml_models["simple_imputer"]
         df2 = imputer.transform(df[ml_models["simple_imputer"].feature_names_in_])
