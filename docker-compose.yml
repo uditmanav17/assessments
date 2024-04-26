@@ -1,0 +1,39 @@
+version: "3"
+services:
+
+  front_end:
+    depends_on:
+      - backend
+    build:
+      context: ./src/frontend
+      dockerfile: Dockerfile
+    # container_name: appeaseing_view
+    command: >
+      /app/streamlit_frontend.py --server.port 8080
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./src/frontend:/app
+    profiles:
+      - app
+
+
+  backend:
+    build:
+      context: ./src/backend
+      dockerfile: Dockerfile
+    # container_name: santender_infer
+    command: >
+      uvicorn api_backend:app --host 0.0.0.0 --port 8000 --reload
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./src/backend:/app
+    profiles:
+      - infer
+      - app
+
+networks:
+  app:
+    driver: bridge
+
