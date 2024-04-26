@@ -1,6 +1,7 @@
 # ruff: noqa : F401
 
 import os
+import pickle as pkl
 from contextlib import asynccontextmanager
 from io import StringIO
 from pathlib import Path
@@ -13,11 +14,15 @@ from fastapi.responses import StreamingResponse
 ml_models = {}
 
 
-def fake_answer_to_everything_ml_model(x: float):
-    return x * 42
+def fake_answer_to_everything_ml_model(df: pd.DataFrame):
+    # sourcery skip: inline-immediately-returned-variable
+    model = ml_models.get("dummy_model")
+    preds = model.predict(df)  # type: ignore
+    return preds
 
 
 def respond_with_csv_file(df: pd.DataFrame, file_name: str):
+    # sourcery skip: inline-immediately-returned-variable
     stream = StringIO()
     df.to_csv(stream, index=False)
     response = StreamingResponse(
@@ -34,7 +39,13 @@ def respond_with_csv_file(df: pd.DataFrame, file_name: str):
 @asynccontextmanager
 async def lifespan(app: FastAPI | APIRouter):
     # Load the ML model
-    ml_models["answer_to_everything"] = fake_answer_to_everything_ml_model
+    with open("./dummy_clf.pkl", "rb") as f:
+        model = pkl.load(f)
+    ml_models["dummy_model"] = model
+    with open("./simple_imputer.pkl", "rb") as f:
+        imputer = pkl.load(f)
+    ml_models["simple_imputer"] = imputer
+    ml_models["dummy_predictions"] = fake_answer_to_everything_ml_model
     yield
     # Clean up the ML models and release the resources
     ml_models.clear()
@@ -75,11 +86,15 @@ async def upload_file_predict(file: UploadFile = File(...)):
     except Exception as e:
         raise HTTPException(
             status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
-            detail="Wrong file format or missing columns",
+            detail="Wrong file format or missing columns!",
         ) from e
     # replace any missing row value with mean
+    if df.isna().sum().sum() > 1:
+        imputer = ml_models["simple_imputer"]
+        df2 = imputer.transform(df[ml_models["simple_imputer"].feature_names_in_])
+    predictions = ml_models["dummy_predictions"](df2)
     # MODEL PREDICTION HERE
-    df["target"] = 0
+    df["target"] = predictions
     df2 = df[["ID_code", "target"]]
     return respond_with_csv_file(df2, "predictions")
 
