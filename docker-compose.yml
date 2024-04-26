@@ -4,10 +4,10 @@ services:
   front_end:
     depends_on:
       - backend
-    build:
-      context: ./src/frontend
-      dockerfile: Dockerfile
-    # container_name: appeaseing_view
+    # build:
+    #   context: ./src/frontend
+    #   dockerfile: Dockerfile
+    image: uditmanav/santander_frontend
     command: >
       /app/streamlit_frontend.py --server.port 8080
     ports:
@@ -19,10 +19,11 @@ services:
 
 
   backend:
-    build:
-      context: ./src/backend
-      dockerfile: Dockerfile
-    # container_name: santender_infer
+    # build:
+    #   context: ./src/backend
+    #   dockerfile: Dockerfile
+    image: uditmanav/santander_backend
+    restart: unless-stopped
     command: >
       uvicorn api_backend:app --host 0.0.0.0 --port 8000 --reload
     ports:
