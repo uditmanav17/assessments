@@ -58,14 +58,14 @@ def verify_df(df: pd.DataFrame):
     return len(columns) == len(columns.intersection(set(df.columns)))
 
 
-@app.get("/download_sample", tags=["sample_file"])
+@app.get("/download_sample", tags=["download_sample_file"])
 def download_sample_file():
     curr_file_path = Path(os.path.abspath(__file__)).parent
     df = pd.read_csv(rf"{str(curr_file_path)}/test2.csv")
     return respond_with_csv_file(df, "sample_file")
 
 
-@app.post("/upload_file_predict", tags=["predict"])
+@app.post("/upload_file_predict", tags=["batch_predict"])
 async def upload_file_predict(file: UploadFile = File(...)):
     contents = file.file.read()
     try:
