@@ -39,10 +39,11 @@ def respond_with_csv_file(df: pd.DataFrame, file_name: str):
 @asynccontextmanager
 async def lifespan(app: FastAPI | APIRouter):
     # Load the ML model
-    with open("./dummy_clf.pkl", "rb") as f:
+    curr_file_path = Path(os.path.abspath(__file__)).parent
+    with open(f"{curr_file_path}/dummy_clf.pkl", "rb") as f:
         model = pkl.load(f)
     ml_models["dummy_model"] = model
-    with open("./simple_imputer.pkl", "rb") as f:
+    with open(f"{curr_file_path}/simple_imputer.pkl", "rb") as f:
         imputer = pkl.load(f)
     ml_models["simple_imputer"] = imputer
     ml_models["dummy_predictions"] = fake_answer_to_everything_ml_model
@@ -92,7 +93,7 @@ async def upload_file_predict(file: UploadFile = File(...)):
     df2 = df.copy()
     if df.isna().sum().sum() > 1:
         imputer = ml_models["simple_imputer"]
-        df2 = imputer.transform(df[ml_models["simple_imputer"].feature_names_in_])
+        df2 = imputer.transform(df[imputer.feature_names_in_])
     predictions = ml_models["dummy_predictions"](df2)
     # MODEL PREDICTION HERE
     df["target"] = predictions
