@@ -1,12 +1,13 @@
 name: frontend-image-pack
+
 on:
   push:
     branches:
       - main
     paths:
-      - src/frontend/*
+      - src/frontend/*.py
 jobs:
-  train_model:
+  frontend_container_build:
     runs-on: [ubuntu-latest]
     steps:
       - name: Basic Information
@@ -40,7 +41,6 @@ jobs:
         with:
           context: ./src/frontend
           push: true
-          # tags: ${{ steps.meta.outputs.tags }}
           tags: uditmanav/santander_frontend:latest
           labels: ${{ steps.meta.outputs.labels }}
 
