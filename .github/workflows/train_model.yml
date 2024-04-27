@@ -41,7 +41,10 @@ jobs:
         # working-directory: ./src/model_training
         run: |
           python ./src/model_training/train.py
-          ls ./src/model_training
+          echo "Verifying if trained classifer is in runner"
+          ls ./src/backend
+          echo "Directory Tree"
+          tree
 
       - name: Log in to Docker Hub
         uses: docker/login-action@v3

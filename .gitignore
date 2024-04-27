@@ -6,6 +6,7 @@
 /data
 **/*.zip
 **/*.pkl
+!src/backend/simple_imputer.pkl
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
