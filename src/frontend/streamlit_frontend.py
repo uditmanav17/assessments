@@ -43,7 +43,7 @@ def predict_endpoint(csv_file_path: str):
 
 
 def main():
-    st.title("💸 Santander Customer Transaction Prediction")
+    st.title("💸Santander Customer Transaction Prediction")
     st.sidebar.title("Sample Data files")
 
     # sidebar layout
