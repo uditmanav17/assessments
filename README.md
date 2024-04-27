@@ -55,7 +55,8 @@ There are two github workflows each for managing frontend and backend services, 
 ## Future Work / Improvements
 - Data versioning - [DVC](https://dvc.org/)
 - Experiment and artifacts tracking - [MLFlow](https://mlflow.org/), [WandB](https://wandb.ai/site)
-- Better methods to save and load models like joblib, [don't pickle](https://news.ycombinator.com/item?id=32431036)
-- Serverless on-demand architecture
+- Better methods to save and load models like joblib, [don't pickle](https://news.ycombinator.com/item?id=32431036).
+- Serverless on-demand architecture.
+- Run backend server with `gunicorn` instead of `uvicorn`.
 - More tips [here](https://www.ravirajag.dev/blog).
 - If using deep learning model, try [quantization](https://deci.ai/quantization-and-quantization-aware-training/) and converting model to [ONNX](https://onnx.ai/) format for better inference speed and less memory usage.
