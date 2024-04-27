@@ -49,6 +49,9 @@ def main():
     # sidebar layout
     st.sidebar.markdown("---")
     st.sidebar.markdown("Download sample file")
+    st.sidebar.markdown(
+        "Sample file used for adding data samples, which can then be uploaded to prediction service."
+    )
     csv = download_sample_file()
     st.sidebar.download_button(
         label="Download sample CSV",
@@ -57,6 +60,15 @@ def main():
         mime="text/csv",
     )
 
+    st.markdown(
+        """
+        - This is frontend of an application to serve prediction for famous Santender Dataset.
+        - To know more about Santander, refer [this](https://www.kaggle.com/competitions/santander-customer-transaction-prediction/overview).
+        - Its simple and straight forward, download sample file from left sidebar,
+        update its contents with data on which you want to perform predictions. Upload the file below.
+        - View results in application or download prediction csv.
+        """
+    )
     csv_file_buffer = st.file_uploader("Upload CSV for prediction", type=["csv"])
     csv_file = tempfile.NamedTemporaryFile(suffix=".mp4", delete=False)
     if csv_file_buffer:
