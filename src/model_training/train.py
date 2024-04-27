@@ -108,7 +108,7 @@ if __name__ == "__main__":
     model_out_path = r"..\backend\dummy_clf.pkl"
     with open(model_out_path, "wb") as f:
         pkl.dump(model, f)
-    print("Good All Done!")
+    print("Good, All Done!")
 
 
 # %%
