@@ -1,6 +1,6 @@
-fastapi
+fastapi==0.103.2
 python-multipart
 uvicorn
 gunicorn
-scikit-learn
+scikit-learn==1.4.1.post1
 pandas
