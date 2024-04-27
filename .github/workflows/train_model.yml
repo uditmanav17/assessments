@@ -38,9 +38,10 @@ jobs:
           pip install -r requirements.txt
 
       - name: Train Model
-        working-directory: ./src/model_training
+        # working-directory: ./src/model_training
         run: |
-          python train.py
+          python ./src/model_training/train.py
+          ls ./src/model_training
 
       - name: Log in to Docker Hub
         uses: docker/login-action@v3
