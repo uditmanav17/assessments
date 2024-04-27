@@ -105,7 +105,7 @@ if __name__ == "__main__":
     valid_preds = model.predict(valid_X)
     classification_metrics(valid_y, valid_preds)
     # %%
-    model_out_path = r"src\backend\dummy_clf.pkl"
+    model_out_path = r"src/backend/dummy_clf.pkl"
     with open(model_out_path, "wb") as f:
         pkl.dump(model, f)
     print("Good, All Done!")
