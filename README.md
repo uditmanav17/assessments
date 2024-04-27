@@ -23,6 +23,7 @@ Now, depending on how much time it had been since last changes in this repo, the
 There are two github workflows each for managing frontend and backend services, described below -
 - `frontend_container` - Monitors file changes in `src/frontend/`, any change in `.py` files here will trigger this workflow and it'll rebuild frontend container image for the application and push to dockerhub. More details [here](https://github.com/uditmanav17/assessments/blob/main/.github/workflows/frontend_container.yml).
 - `train_model` - Monitors file changes in `src/backend/` and `src/model_training/train.py`, any change files here will trigger this workflow and it'll train the model described in `train.py` and pack it up in docker container with backend service for the application and push to dockerhub. More details [here](https://github.com/uditmanav17/assessments/blob/main/.github/workflows/train_model.yml).
+- Updating containers on remote server is done via `Long polling` implemented [here](https://github.com/uditmanav17/assessments/blob/main/check_docker_hashes.py). It compares hashes of local and remote containers and deploys updated container if there's has mismatch.
 
 
 ## Deployment

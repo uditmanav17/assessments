@@ -8,7 +8,7 @@ import requests
 import streamlit as st
 
 st.set_page_config(
-    page_title="Customer Transaction Prediction",
+    page_title="Transaction Prediction",
     page_icon="💸",
     initial_sidebar_state="expanded",
 )
