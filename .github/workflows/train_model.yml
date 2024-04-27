@@ -1,0 +1,69 @@
+name: train-and-pack-backend
+# only execute this action on push
+# https://github.community/t/is-it-possible-to-run-the-job-only-when-a-specific-file-changes/115484
+# https://docs.github.com/en/actions/learn-github-actions/workflow-syntax-for-github-actions#onpushpull_requestpaths
+on:
+  push:
+    branches:
+      - "main"
+    paths:
+      - "/src/model_training/train.py"
+      - "/src/backend/*"
+jobs:
+  train_model:
+    runs-on: [ubuntu-latest]
+    steps:
+      - name: Basic Information
+        run: |
+          echo "🎬 The job was automatically triggered by a ${{ github.event_name }} event."
+          echo "💻 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
+          echo "🎋 Workflow is running on the branch ${{ github.ref }}"
+
+      - name: Checking out the repository
+        uses: actions/checkout@v3
+
+      - name: Information after checking out
+        run: |
+          echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
+          echo "🖥️ The workflow is now ready to test your code on the runner."
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Train Model
+        working-directory: ./src/model_training
+        run: |
+          python train.py
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@98669ae865ea3cffbcbaa878cf57c20bbf1c6c38
+        with:
+          images: uditmanav/santander_backend
+
+      - name: Build and push Docker image
+        # working-directory: ./src/backend
+        uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
+        with:
+          context: ./src/backend
+          push: true
+          # tags: ${{ steps.meta.outputs.tags }}
+          tags: uditmanav/santander_backend:latest
+          labels: ${{ steps.meta.outputs.labels }}
+
+
+
+

@@ -12,8 +12,8 @@ services:
       /app/streamlit_frontend.py --server.port 8080
     ports:
       - "8080:8080"
-    volumes:
-      - ./src/frontend:/app
+    # volumes:
+    #   - ./src/frontend:/app
     profiles:
       - app
 
@@ -28,8 +28,8 @@ services:
       uvicorn api_backend:app --host 0.0.0.0 --port 8000 --reload
     ports:
       - "8000:8000"
-    volumes:
-      - ./src/backend:/app
+    # volumes:
+    #   - ./src/backend:/app
     profiles:
       - infer
       - app

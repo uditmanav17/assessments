@@ -13,6 +13,16 @@ from fastapi.responses import StreamingResponse
 
 ml_models = {}
 
+description = """
+Backend service for Transaction predicion
+
+You will be able to:
+
+* **Check if service is up (Ping!)** (_implemented_).
+* **Download sample file** (_implemented_).
+* **Upload file for prediction** (_implemented_).
+"""
+
 
 def fake_answer_to_everything_ml_model(df: pd.DataFrame):
     # sourcery skip: inline-immediately-returned-variable
@@ -56,6 +66,17 @@ app = FastAPI(
     lifespan=lifespan,
     docs_url="/",
     redoc_url=None,
+    title="Transaction Prediction",
+    contact={
+        "name": "Udit Manav",
+        "url": "https://www.linkedin.com/in/uditmanav17/",
+    },
+    license_info={
+        "name": "Apache 2.0",
+        "url": "https://www.apache.org/licenses/LICENSE-2.0.html",
+    },
+    description=description,
+    version="0.0.1",
 )
 
 
