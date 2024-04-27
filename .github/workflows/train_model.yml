@@ -5,10 +5,10 @@ name: train-and-pack-backend
 on:
   push:
     branches:
-      - "main"
+      - main
     paths:
-      - "/src/model_training/train.py"
-      - "/src/backend/*"
+      - src/model_training/train.py
+      - src/backend/*
 jobs:
   train_model:
     runs-on: [ubuntu-latest]
