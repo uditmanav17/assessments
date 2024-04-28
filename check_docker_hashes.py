@@ -2,6 +2,7 @@
 # scheduled via crontab on deployed server
 
 import json
+from datetime import datetime as dt
 from subprocess import PIPE, Popen
 
 images = ["uditmanav/santander_frontend:latest", "uditmanav/santander_backend:latest"]
@@ -17,7 +18,7 @@ for img, service in zip(images, services):
     local_hash = local_hash.decode("utf-8").strip()
     print(f"{local_hash = }")
     if rc != 0:
-        print(f"Error with fetching {service} service's local hash!")
+        print(f"[{dt.now()}] Error with fetching {service} service's local hash!")
         continue
 
     # fetch remote docker container hash
@@ -29,14 +30,14 @@ for img, service in zip(images, services):
     remote_hash = rh_dict.get("config").get("digest")
     print(f"{remote_hash = }")
     if rc != 0:
-        print(f"Error with fetching {service} service's remote hash!")
+        print(f"[{dt.now()}] Error with fetching {service} service's remote hash!")
         continue
 
     # compare hash
     if local_hash == remote_hash:
-        print(f"Hash matching for {service} service, nothing to do!")
+        print(f"[{dt.now()}] Hash matching for {service} service, nothing to do!")
     else:
-        print(f"Hash NOT matching for {service} service!!!")
+        print(f"[{dt.now()}] Hash NOT matching for {service} service!!!")
         print("Fetching remote container")
         commands = [
             ["docker", "pull", f"{img}"],
@@ -50,4 +51,4 @@ for img, service in zip(images, services):
             print(err)
             rc = p.returncode
             if rc != 0:
-                print(f"Error with updating {service}!! Please check!")
+                print(f"[{dt.now()}] Error with updating {service}!! Please check!")
