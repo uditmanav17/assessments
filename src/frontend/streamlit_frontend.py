@@ -62,12 +62,15 @@ def main():
 
     st.markdown(
         """
-        - This is frontend of an application to serve prediction for famous Santender Dataset.
-        - To know more about Santander, refer [this](https://www.kaggle.com/competitions/santander-customer-transaction-prediction/overview).
-        - Its simple and straight forward, download sample file from left sidebar,
-        update its contents with data on which you want to perform predictions. Upload the file below.
-        - View results in application or download prediction csv.
-        """
+    This is the frontend application for predicting customer transactions based on the Santander Customer Transaction Prediction dataset. You can learn more about the dataset [here](https://www.kaggle.com/competitions/santander-customer-transaction-prediction/overview).
+
+    Get Started with Predictions:
+
+    1. **Download Sample Data**: Locate the sample data file on the left sidebar. This file provides an example format for your own prediction data.
+    2. **Prepare Your Data**: Update the sample file with your own data points for which you want to predict customer transactions. Ensure your data adheres to the same format as the sample.
+    3. **Upload Your Data**: Click the "Upload" button below to upload your prepared data file.
+    4. **View Predictions**: Once uploaded, the application will process your data and generate predictions. You can then view these predictions directly within the application or download them as a CSV file for further analysis.
+    """
     )
     csv_file_buffer = st.file_uploader("Upload CSV for prediction", type=["csv"])
     csv_file = tempfile.NamedTemporaryFile(suffix=".mp4", delete=False)
