@@ -56,7 +56,7 @@ def main():
     st.sidebar.download_button(
         label="Download sample CSV",
         data=csv,
-        file_name="large_df.csv",
+        file_name="sample_data_df.csv",
         mime="text/csv",
     )
 

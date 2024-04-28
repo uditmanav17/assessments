@@ -6,6 +6,7 @@ from contextlib import asynccontextmanager
 from io import StringIO
 from pathlib import Path
 
+import numpy as np
 import pandas as pd
 import uvicorn
 from fastapi import APIRouter, FastAPI, File, HTTPException, UploadFile, status
@@ -24,10 +25,10 @@ You will be able to:
 """
 
 
-def fake_answer_to_everything_ml_model(df: pd.DataFrame):
+def predict_from_model(df: pd.DataFrame):
     # sourcery skip: inline-immediately-returned-variable
-    model = ml_models.get("dummy_model")
-    preds = model.predict(df)  # type: ignore
+    model = ml_models.get("classification_model")
+    preds = model.predict_proba(df)  # type: ignore
     return preds
 
 
@@ -52,11 +53,8 @@ async def lifespan(app: FastAPI | APIRouter):
     curr_file_path = Path(os.path.abspath(__file__)).parent
     with open(f"{curr_file_path}/dummy_clf.pkl", "rb") as f:
         model = pkl.load(f)
-    ml_models["dummy_model"] = model
-    with open(f"{curr_file_path}/simple_imputer.pkl", "rb") as f:
-        imputer = pkl.load(f)
-    ml_models["simple_imputer"] = imputer
-    ml_models["dummy_predictions"] = fake_answer_to_everything_ml_model
+    ml_models["classification_model"] = model
+    ml_models["classification_predictions"] = predict_from_model
     yield
     # Clean up the ML models and release the resources
     ml_models.clear()
@@ -110,15 +108,10 @@ async def upload_file_predict(file: UploadFile = File(...)):
             status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
             detail="Wrong file format or missing columns!",
         ) from e
-    # replace any missing row value with mean
-    df2 = df.copy()
-    if df.isna().sum().sum() > 1:
-        imputer = ml_models["simple_imputer"]
-        df2 = imputer.transform(df[imputer.feature_names_in_])
-    predictions = ml_models["dummy_predictions"](df2)
-    # MODEL PREDICTION HERE
-    df["target"] = predictions
-    df2 = df[["ID_code", "target"]]
+    df_ids = df.pop("ID_code")
+    predictions = np.round(ml_models["classification_predictions"](df)[:, 1], 3)
+
+    df2 = pd.DataFrame({"ID_code": df_ids.values, "target_probab_1": predictions})
     return respond_with_csv_file(df2, "predictions")
 
 
