@@ -112,8 +112,7 @@ if __name__ == "__main__":
     valid_y = valid_X.pop("target")
     classification_metrics(model, valid_X, valid_y)
     # %%
-    # model_out_path = r"src/backend/dummy_clf.pkl"
-    model_out_path = r"D:\Programming\Git\assessments\src\backend\dummy_clf.pkl"
+    model_out_path = r"src/backend/dummy_clf.pkl"
     with open(model_out_path, "wb") as f:
         pkl.dump(model, f)
     print("Good, All Done!")
