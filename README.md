@@ -7,15 +7,18 @@ This repo aims to demonstarate MLOps skills while solving a classification probl
 
 ## Public Endpoints for Deployed App
 Before diving into code, checkout [frontend](http://3.7.49.154:8080/) and [backend](http://3.7.49.154:8000/) service for prediction available on public endpoint.
+
 Now, depending on how much time it had been since last changes in this repo, the above endpoints may not be available. But you can deploy it on your own easily and (possibly) free of charge on cloud. Scroll down to `Docker Playground Cloud Deployment` in `Deployment` section.
 
 
 ## Code Structure / Services
-- `notebooks` - Contains EDA and model development steps including all preprocessing/feature engineering, evaluation etc.
+- `notebooks` - Contains EDA and model development steps including all preprocessing, evaluation etc. Once a preprocessing steps are defined and model is selected, final code is moved to `model_training\train` for CI/CD.
 - `src` - Contains frontend and backend services along with champion model training script.
     - `backend` - RestAPI endpoints developed using [FastAPI](https://fastapi.tiangolo.com/).
     - `frontend` - Basic frontend app developed using [Streamlit](https://streamlit.io/).
-    - `model_training` - Boiler plate code for all the required steps to approach a classification problem. Ideally this should be excuted on local hosted runner, depending on model/data size and time it takes to train model.
+    - `model_training` - Ideally this should be excuted on local hosted runner, depending on model/data size and time it takes to train model.
+        - `train_boilerplate` - Boiler plate code for all the required steps to approach a classification problem.
+        - `train` - Final selected model and preprocessing code that is executed to build train/predict pipeline.
 - `docker-compose` - Compose file which starts backend and frontend services to run application.
 
 
@@ -23,7 +26,7 @@ Now, depending on how much time it had been since last changes in this repo, the
 There are two github workflows each for managing frontend and backend services, described below -
 - `frontend_container` - Monitors file changes in `src/frontend/`, any change in `.py` files here will trigger this workflow and it'll rebuild frontend container image for the application and push to dockerhub. More details [here](https://github.com/uditmanav17/assessments/blob/main/.github/workflows/frontend_container.yml).
 - `train_model` - Monitors file changes in `src/backend/` and `src/model_training/train.py`, any change files here will trigger this workflow and it'll train the model described in `train.py` and pack it up in docker container with backend service for the application and push to dockerhub. More details [here](https://github.com/uditmanav17/assessments/blob/main/.github/workflows/train_model.yml).
-- Updating containers on remote server is done via `Long polling` implemented [here](https://github.com/uditmanav17/assessments/blob/main/check_docker_hashes.py). It compares hashes of local and remote containers and deploys updated container if there's has mismatch.
+- Updating containers on remote server is done via `polling` implemented [here](https://github.com/uditmanav17/assessments/blob/main/check_docker_hashes.py). It compares hashes of local and remote containers and deploys updated container if there's a mismatch.
 
 
 ## Deployment
@@ -54,6 +57,7 @@ There are two github workflows each for managing frontend and backend services, 
 
 
 ## Future Work / Improvements
+- Use event driven approach instead of polling for deployment.
 - Data versioning - [DVC](https://dvc.org/)
 - Experiment and artifacts tracking - [MLFlow](https://mlflow.org/), [WandB](https://wandb.ai/site)
 - Better methods to save and load models like joblib, [don't pickle](https://news.ycombinator.com/item?id=32431036).
