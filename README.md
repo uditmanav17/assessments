@@ -12,6 +12,10 @@ Before diving into code, checkout [frontend](http://3.7.49.154:8080/) and [backe
 You can deploy it on your own easily and (possibly) free of charge on cloud. Scroll down to `Docker Playground Cloud Deployment` in `Deployment` section.
 
 
+## Architecture Diagram
+![System Diagram](images/mlops-updated.png)
+
+
 ## Code Structure / Services
 - `notebooks` - Contains EDA (exploratory data analysis) and model development steps including all preprocessing and evaluation. Once preprocessing steps are defined and model is selected, final code is processed to `model_training/train.py` for CI/CD.
 - `src` - Contains frontend and backend services along with champion model training script.
@@ -51,9 +55,6 @@ There are two github workflows each for managing frontend and backend services, 
     ```
     - This will open up port `8000` for backend endpoints and `8080` for frontend.
     - To access application, click on port numbers next to `OPEN PORT` button to visit frontend/backend service.
-
-- My Deployment Tech Stack
-    - UPDATING SOON (after discussions)
 
 
 ## Future Work / Improvements
