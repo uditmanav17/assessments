@@ -19,9 +19,9 @@ Backend service for Transaction predicion!
 
 You will be able to:
 
-* **Check if service is up (Ping!)** (_implemented_).
-* **Download sample file** (_implemented_).
-* **Upload file for prediction** (_implemented_).
+* **Check if service is up (Ping!)** (_implemented_)
+* **Download sample file** (_implemented_)
+* **Upload file for prediction** (_implemented_)
 """
 
 

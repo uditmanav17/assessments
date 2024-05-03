@@ -1,6 +1,5 @@
 # ruff: noqa : F401
 # %%
-import os
 import pickle as pkl
 from pathlib import Path
 
@@ -17,7 +16,7 @@ from sklearn.metrics import (
     roc_auc_score,
 )
 from sklearn.model_selection import train_test_split
-from sklearn.pipeline import Pipeline, make_pipeline
+from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import MinMaxScaler
 
 RANDOM_STATE = 42
