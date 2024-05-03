@@ -27,7 +27,7 @@ def evaluate_response(response):
     if data:
         return pd.read_csv(io.BytesIO(data)).to_csv(index=False).encode("utf-8")
     else:
-        st.warning("Something went Wrong!")
+        st.warning("Something went Wrong!!")
 
 
 @st.cache_data
