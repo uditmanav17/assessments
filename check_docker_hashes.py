@@ -51,12 +51,13 @@ def update_latest_images(image_list, service_list):
                 ["docker", "pull", f"{img}"],
                 ["docker", "compose", "stop", f"{service}"],
                 ["docker", "compose", "up", "-d", "--no-deps", f"{service}"],
+                ["docker", "image", "prune", "-f"],
             ]
             for c in commands:
                 p = Popen(c, stdin=PIPE, stdout=PIPE, stderr=PIPE)
                 output, err = p.communicate()
-                print(output)
-                print(err)
+                print("Output -", output.decode("utf-8").strip())
+                print("Error -", err.decode("utf-8").strip())
                 rc = p.returncode
                 if rc != 0:
                     print(

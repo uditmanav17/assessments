@@ -36,5 +36,5 @@ def ping_server(url: str, service_name: str):
 if __name__ == "__main__":
     os.environ["HOST_IP"] = ""
     HOST_IP = os.environ.get("HOST_IP", "")
-    ping_server(f"http://{HOST_IP}:8080/", "front_end")
     ping_server(f"http://{HOST_IP}:8000/", "backend")
+    ping_server(f"http://{HOST_IP}:8080/", "front_end")
