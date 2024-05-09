@@ -6,9 +6,11 @@ This repo aims to demonstarate MLOps skills while solving a classification probl
 
 
 ## Public Endpoints for Deployed App
-Before diving into code, checkout [frontend](http://3.7.49.154:8080/) and [backend](http://3.7.49.154:8000/) service for prediction available on public endpoint.
-
+<!-- Before diving into code, checkout [frontend]() and [backend]() service for prediction available on public endpoint. -->
 <!-- Now, depending on how much time it had been since last changes in this repo, the above endpoints may not be available.  -->
+
+Before diving into code, please go to deployment section to deploy app using docker compose to get a better understanding of it.
+
 You can deploy it on your own easily and (possibly) free of charge on cloud. Scroll down to `Docker Playground Cloud Deployment` in `Deployment` section.
 
 
